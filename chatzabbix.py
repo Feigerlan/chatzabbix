@@ -26,6 +26,7 @@ self_name='PH'
 def cmd(revmsg):
     msg = revmsg['Text']
     if msg == "注销登录":
+        itchat.send('正在注销登录...已注销',toUserName = revmsg['FromUserName'])
         quit()
         print("已注销")
     elif msg == "确认告警":
@@ -42,6 +43,9 @@ def cmd(revmsg):
     elif msg == "告警":
          gaojing()
          print("执行告警")
+    else:
+     welcome = "您好，欢迎使用zabbix微信告警系统！你可以回复关键字(查询告警、确认事件、触发器、告警等)实现功能\n更多功能正在研发中，敬请期待！"
+     itchat.send('正在注销登录...已注销',toUserName = revmsg['FromUserName'])
 #######################################
 #######################################
 def quit():
