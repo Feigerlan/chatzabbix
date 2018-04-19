@@ -32,8 +32,9 @@ def triggergetevents(triggerID,url,auth):
     "jsonrpc": "2.0",
     "method": "event.get",
     "params": {
-        "output": "extend",
-        "select_acknowledges": "extend",
+        "output": ["eventid","objectid"],
+        "select_acknowledges":"extend",
+        #"output": "extend",
         "objectids": triggerID,
         "sortfield": ["clock", "eventid"],
         "sortorder": "DESC"
@@ -60,16 +61,31 @@ def timegetevents(time_from,time_till,url,auth):
     }
     output = requestJson(url,values)
     return output
+#通过eventID查询事件
+def eventget(eventid,url,auth):
+    values = {
+            "jsonrpc": "2.0",
+            "method": "event.get",
+            "params": {
+                    "output": ["eventid","acknowledged","objectid"],
+                    "select_acknowledges":["eventid","message","action","alias"],
+                    "eventids": eventid,
+                        },
+            "auth": auth,
+            "id": 1
+            } 
+    output = requestJson(url,values)
+    return output
 #定义确认事件方法
 
-def eventackknowledge(eventid,url,auth):
+def eventackknowledge(eventid,url,auth,message="已确认(微信默认确认消息)",action=0):
    values = { 
             'jsonrpc' : '2.0',
             'method' : 'event.acknowledge',
             'params' : { 
                       'eventids' : eventid,
-                      'message' : '已解决问题',
-                      'action' : 1
+                      'message' : message,
+                      'action' : action
                       },
             'auth' : auth,
             'id' : 1 
